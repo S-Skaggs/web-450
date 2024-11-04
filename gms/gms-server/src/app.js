@@ -22,7 +22,7 @@ const plantRouter =require('./routes/plant');
 let app = express();
 
 // Mongoose connection
-const connectionString = 'mongodb+srv://gms_user:s3cret@bellevueuniversity.y1mkstf.mongodb.net/?retryWrites=true&w=majority&appName=BellevueUniversity'
+const connectionString = 'mongodb+srv://gms_user:s3cret@bellevueuniversity.y1mkstf.mongodb.net/?retryWrites=true&w=majority&appName=BellevueUniversity';
 
 const dbName = 'gms'; // Database name
 
