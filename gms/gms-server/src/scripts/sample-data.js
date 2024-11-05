@@ -87,5 +87,5 @@ async function createSampleData() {
   }
 }
 
-// Run the funciton to create sample data
+// Run the function to create sample data
 createSampleData();

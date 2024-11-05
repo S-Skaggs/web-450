@@ -35,7 +35,7 @@ let gardenSchema = new Schema({
   },
   description: {
     type: String,
-    description: [500, 'Description cannot exceed 500 characters']
+    maxlength: [500, 'Description cannot exceed 500 characters']
   },
   dateCreated: {
     type: Date,
