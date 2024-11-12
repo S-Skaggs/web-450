@@ -21,7 +21,7 @@ async function connectToDatabase() {
 connectToDatabase(); // Call the function to connect to the database
 
 // Sample data for Garden
-const sampleGardesn = [
+const sampleGardens = [
   {
     name: 'Rose Garden',
     location: 'Central Park',
