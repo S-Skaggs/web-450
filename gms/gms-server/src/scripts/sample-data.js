@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Garden = require('../models/garden');
+const Garden = require('../models/garden/garden');
 const Plant = require('../models/plant');
 
 // Connect to MongoDB
