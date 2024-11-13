@@ -3,14 +3,8 @@ const Schema = mongoose.Schema;
 
 // Define the counter schema
 let counterSchema = new Schema({
-  _id: {
-    type: String,
-    required: true
-  },
-  seq: {
-    type: Number,
-    default: 0
-  }
+  _id: { type: String, required: true },
+  seq: { type: Number, default: 0 }
 });
 
 // Create a counter model

@@ -25,8 +25,7 @@ let plantSchema = new Schema({
     type: Date
   },
   dateCreated: {
-    type: Date,
-    default: Date.now
+    type: Date, default: Date.now
   },
   dateModified: {
     type: Date
@@ -35,6 +34,13 @@ let plantSchema = new Schema({
     type: Number,
     required: [true, 'Garden ID is required']
   }
+});
+
+plantSchema.pre('save', function(next) {
+  if(!this.isNew) {
+    this.dateModified = new Date();
+  }
+  next();
 });
 
 module.exports = {

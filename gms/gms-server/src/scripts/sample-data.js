@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Garden = require('../models/garden');
-const Plant = require('../models/plant');
+const { Garden } = require('../models/garden');
+const { Plant } = require('../models/plant');
 
 // Connect to MongoDB
 const connectionString = 'mongodb+srv://gms_user:s3cret@bellevueuniversity.y1mkstf.mongodb.net/?retryWrites=true&w=majority&appName=BellevueUniversity';
@@ -9,9 +9,7 @@ const dbName = 'gms';
 
 async function connectToDatabase() {
   try {
-    await mongoose.connect(connectionString, {
-      dbName: dbName
-    });
+    await mongoose.connect(connectionString, { dbName: dbName });
     console.log('Connection to the database instance was successful');
   } catch (err) {
     console.error(`MongoDB connection error: ${err}`);
@@ -69,10 +67,7 @@ async function createSampleData() {
     }
 
     // Update samplePlants with the correct gardenId values
-    const updatedSamplePlants = samplePlants.map(plant => ({
-      ...plant,
-      gardenId: gardenIdMap[plant.gardenName]
-    }));
+    const updatedSamplePlants = samplePlants.map(plant => ({...plant, gardenId: gardenIdMap[plant.gardenName]}));
 
     console.log('Updated sample plants:', updatedSamplePlants);
 
