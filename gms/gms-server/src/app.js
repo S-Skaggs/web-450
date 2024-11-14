@@ -38,6 +38,8 @@ async function connectToDatabase() {
   }
 }
 
+connectToDatabase(); // Call the function to connect to the database
+
 // CORS configuration
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // This allows all origins

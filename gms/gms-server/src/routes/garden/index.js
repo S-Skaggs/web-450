@@ -42,7 +42,7 @@ router.post('/', async (req, res, next) => {
 // update a garden
 router.patch('/:gardenId', async (req, res, next) => {
   try {
-    const garden = await Garden.find({ gardenId: req.params.gardenId });
+    const garden = await Garden.findOne({ gardenId: req.params.gardenId });
     garden.set({
       name: req.body.name,
       location: req.body.location,
@@ -64,7 +64,7 @@ router.patch('/:gardenId', async (req, res, next) => {
 // delete a garden
 router.delete('/:gardenId', async (req, res, next) => {
   try {
-    await Garden.delete({ gardenId: req.params.gardenId });
+    await Garden.deleteOne({ gardenId: req.params.gardenId });
     res.send({
       message: 'Garden deleted successfully',
       gardenId: req.params.gardenId

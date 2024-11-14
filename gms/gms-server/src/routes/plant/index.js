@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 // find plant by id
 router.get('/:plantId', async (req, res, next) => {
   try {
-    const plant = Plant.findOne({_id: req.params.plantId});
+    const plant = await Plant.findOne({_id: req.params.plantId});
     res.send(plant);
   } catch (err) {
     console.error(`Error while getting plant: ${err}`);
