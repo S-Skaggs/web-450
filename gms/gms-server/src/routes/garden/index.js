@@ -1,6 +1,13 @@
 const express = require('express');
+const Ajv = require('ajv');
+const createError = require('http-errors');
 const router = express.Router();
 const { Garden } = require('../../models/garden');
+const { addGardenSchema, updateGardenSchema } = require('../../schemas');
+
+const ajv = new Ajv();
+const validateAddGarden = ajv.compile(addGardenSchema);
+const validateUpdateGarden = ajv.compile(updateGardenSchema);
 
 // find all gardens
 router.get('/', async (req, res, next) => {
@@ -27,8 +34,15 @@ router.get('/:gardenId', async (req, res, next) => {
 // add a garden
 router.post('/', async (req, res, next) => {
   try {
+    const valid = validateAddGarden(req.body);
+
+    if(!valid) {
+      return next(createError(400, ajv.errorsText(validateAddGarden.errors)));
+    }
+
     const newGarden = new Garden(req.body);
     await newGarden.save();
+
     res.send({
       message: 'Garden created successfully',
       gardenId: newGarden.Garden
@@ -43,6 +57,13 @@ router.post('/', async (req, res, next) => {
 router.patch('/:gardenId', async (req, res, next) => {
   try {
     const garden = await Garden.findOne({ gardenId: req.params.gardenId });
+
+    const valid = validateUpdateGarden(req.body);
+
+    if(!valid) {
+      return next(createError(400, ajv.errorsText(validateAddGarden.errors)));
+    }
+
     garden.set({
       name: req.body.name,
       location: req.body.location,
