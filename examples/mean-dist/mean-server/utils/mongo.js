@@ -10,7 +10,8 @@ const { MongoClient } = require('mongodb')
 
 // Connection string for MongoDB Atlas
 // TODO: Update this connection string with your own credentials
-const MONGO_URL = 'mongodb+srv://nodebucket_user:s3cret@cluster0.lujih.mongodb.net/nodebucketDB?retryWrites=true&w=majority'
+//const MONGO_URL = 'mongodb+srv://nodebucket_user:s3cret@cluster0.lujih.mongodb.net/nodebucketDB?retryWrites=true&w=majority'
+const MONGO_URL = 'mongodb+srv://gms_user:s3cret@bellevueuniversity.y1mkstf.mongodb.net/?retryWrites=true&w=majority&appName=BellevueUniversity'
 
 const mongo = async(operations, next) => {
   try {
