@@ -188,7 +188,7 @@ export class GardenListComponent {
       },
     });
 
-    this.txtSearchControl.valueChanges.pipe(debounceTime(500)).subscribe(val => this.filterGardens(val||'');)
+    this.txtSearchControl.valueChanges.pipe(debounceTime(500)).subscribe(val => this.filterGardens(val||''));
   }
 
   filterGardens(name: string) {

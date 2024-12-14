@@ -4,11 +4,12 @@ import { Plant } from '../plant';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HighlightRecentDirective } from '../highlight-recent.directive';
 
 @Component({
   selector: 'app-plant-list',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, HighlightRecentDirective],
   template: `
     <div class="plant-page">
       <h1 class="plant-page__title">Plant List</h1>
@@ -60,7 +61,7 @@ import { FormsModule } from '@angular/forms';
         RICHARD KRASSO 178
         <tbody class="plant-page__table-body">
           @for (plant of plants; track plant) {
-          <tr class="plant-page__table-row">
+          <tr class="plant-page__table-row" [appHighlightRecent]="plant.datePlanted!">
             <td class="plant-page__table-cell">{{ plant._id }}</td>
             <td class="plant-page__table-cell">{{ plant.name }}</td>
             <td class="plant-page__table-cell">{{ plant.type }}</td>
