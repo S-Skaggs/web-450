@@ -2,15 +2,25 @@ import { Component } from '@angular/core';
 import { GardenService } from '../garden.service';
 import { Garden } from '../garden';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { debounceTime, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-garden-list',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule],
   template: `
     <div class="garden-page">
       <h1 class="garden-page__title">Garden List</h1>
+      <div class="garden-page__search-container">
+        <input
+          type="text"
+          placeholder="Search gardens by name"
+          [formControl]="txtSearchControl"
+          class="garden-page__search"
+        />
+      </div>
       <button class="garden-page__button" routerLink="/gardens/add">
         Add Garden
       </button>
@@ -23,7 +33,7 @@ import { RouterLink } from '@angular/router';
       >
         {{ serverMessage }}
       </div>
-      } @if (gardens && gardens.length > 0) {
+      } @if (gardens.length > 0) {
       <table class="garden-page__table">
         <thead class="garden-page__table-head">
           <tr class="garden-page__table-row">
@@ -33,6 +43,7 @@ import { RouterLink } from '@angular/router';
             <th class="garden-page__table-header">Description</th>
             <th class="garden-page__table-header">Date Created</th>
             <th class="garden-page__table-header">Functions</th>
+            Lean, MEAN, and Pragmatic: A Guide to Full-Stack JavaScript 173
           </tr>
         </thead>
         <tbody class="garden-page__table-body">
@@ -46,8 +57,16 @@ import { RouterLink } from '@angular/router';
             <td
               class="garden-page__table-cell garden-page__table-cell--functions"
             >
-              <a routerLink="/gardens/{{ garden.gardenId }}" class="garden-page__icon-link"><i class="fas fa-edit"></i></a>
-              <a  (click)="deleteGarden(garden.gardenId)" class="garden-page__icon-link"><i class="fas fa-trash-alt"></i></a>
+              <a
+                routerLink="/gardens/{{ garden.gardenId }}"
+                class="garden-page__iconlink"
+                ><i class="fas fa-edit"></i
+              ></a>
+              <a
+                (click)="deleteGarden(garden.gardenId)"
+                class="garden-page__icon-link"
+                ><i class="fas fa-trash-alt"></i
+              ></a>
             </td>
           </tr>
           }
@@ -136,27 +155,51 @@ import { RouterLink } from '@angular/router';
       background-color: #dff0d8;
       border-color: #d6e9c6;
     }
+
+    .garden-page__search-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .garden-page__search {
+      flex: 1;
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+    }
   `,
 })
 export class GardenListComponent {
   gardens: Garden[] = [];
+  allGardens: Garden[] = [];
   serverMessage: string | null = null;
   serverMessageType: 'success' | 'error' | null = null;
+
+  txtSearchControl = new FormControl('');
+
   constructor(private gardenService: GardenService) {
     this.gardenService.getGardens().subscribe({
       next: (gardens: Garden[]) => {
         this.gardens = gardens;
+        this.allGardens = gardens;
         console.log(`Gardens: ${JSON.stringify(this.gardens)}`);
       },
       error: (err: any) => {
         console.error(`Error occurred while retrieving gardens: ${err}`);
       },
     });
+
+    this.txtSearchControl.valueChanges.pipe(debounceTime(500)).subscribe(val => this.filterGardens(val||'');)
   }
+
+  filterGardens(name: string) {
+    this.gardens = this.allGardens.filter(g => g.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
   deleteGarden(gardenId: number) {
     if (!confirm('Are you sure you want to delete this garden?')) {
       return;
     }
+
     this.gardenService.deleteGarden(gardenId).subscribe({
       next: () => {
         console.log(`Garden with ID ${gardenId} deleted successfully`);
@@ -170,12 +213,12 @@ export class GardenListComponent {
           `Error occurred while deleting garden with ID ${gardenId}: ${err}`
         );
         this.serverMessageType = 'error';
-        this.serverMessage = `Error occurred while deleting garden with ID ${gardenId}. Please
-try again later.`;
+        this.serverMessage = `Error occurred while deleting garden with ID ${gardenId}. Please try again later.`;
         this.clearMessageAfterDelay();
       },
     });
   }
+
   private clearMessageAfterDelay() {
     setTimeout(() => {
       this.serverMessage = null;
