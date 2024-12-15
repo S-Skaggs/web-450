@@ -7,7 +7,6 @@
 
 // require statements
 const express = require('express');
-const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
