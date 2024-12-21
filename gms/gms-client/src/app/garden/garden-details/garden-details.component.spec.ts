@@ -47,6 +47,7 @@ describe('GardenDetailsComponent', () => {
     component.gardenForm.controls['description'].setValue('Test Description');
     expect(component.gardenForm.valid).toBeTrue();
   });
+
   it('should call updateGarden and navigate on successful form submission', fakeAsync(() => {
     const updateGardenDTO: UpdateGardenDTO = {
       name: 'Test Garden',
@@ -78,6 +79,7 @@ describe('GardenDetailsComponent', () => {
     );
     expect(router.navigate).toHaveBeenCalledWith(['/gardens']);
   }));
+  
   it('should handle error on form submission failure', fakeAsync(() => {
     spyOn(gardenService, 'updateGarden').and.returnValue(
       throwError('Error updating garden')
